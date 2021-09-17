@@ -16,7 +16,6 @@ EvtIntegerListener target(&value, 10, (EvtAction)trigger);
 
 void setUp(void)
 {
-
     triggered = false;
     target.enable();
     value = 10;

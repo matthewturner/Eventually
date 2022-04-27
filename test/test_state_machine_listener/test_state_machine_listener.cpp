@@ -31,6 +31,7 @@ void setUp(void)
     target.enable();
     target.transition(3);
     target.setTransitionTime(0);
+    target.setSystemTime(10);
     When(Method(ArduinoFake(), millis)).Return(10);
 }
 
@@ -115,13 +116,31 @@ void test_transitions_after_timeout(void)
     TEST_ASSERT_EQUAL(4, target.currentState());
 }
 
+void test_state_transition_updates_time(void)
+{
+    target.transition(4);
+    TEST_ASSERT_EQUAL(10, target.transitionTime());
+}
+
+void test_state_transition_does_not_update_time_if_same_state(void)
+{
+    target.setTransitionTime(2);
+    target.transition(4);
+    target.setTransitionTime(5);
+    target.transition(4);
+    TEST_ASSERT_EQUAL(5, target.transitionTime());
+}
+
 void test_executes_only_once_within_state(void)
 {
-    target.setTransitionTime(5);
-    target.when(3, (EvtAction)trigger, 4, 5, 10);
+    target.setSystemTime(7);
+    target.setTransitionTime(1);
+    target.when(3, (EvtAction)trigger, 4, 5, 5);
     target.performTriggerAction(&ctx);
     target.performTriggerAction(&ctx);
     target.performTriggerAction(&ctx);
+    TEST_ASSERT_EQUAL(4, target.currentState());
+    TEST_ASSERT_TRUE(triggered);
     TEST_ASSERT_EQUAL(1, triggerCount);
 }
 
@@ -140,6 +159,8 @@ int main(int argc, char **argv)
     RUN_TEST(test_interrupt_transitions_when_guard_state);
     RUN_TEST(test_does_not_transition_before_timeout);
     RUN_TEST(test_transitions_after_timeout);
+    RUN_TEST(test_state_transition_updates_time);
+    RUN_TEST(test_state_transition_does_not_update_time_if_same_state);
     RUN_TEST(test_executes_only_once_within_state);
     UNITY_END();
 

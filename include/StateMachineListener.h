@@ -14,8 +14,7 @@ struct stateAction
     byte state;
     byte successState;
     byte failureState;
-    bool repeatAction;
-    uint32_t timeout;
+    uint32_t transitionDelay;
 } typedef StateAction;
 
 struct interruptHandler
@@ -33,8 +32,7 @@ public:
     void when(byte targetState, EvtAction action,
               byte successState = NO_TRANSITION,
               byte failureState = STATE_FAILED,
-              uint32_t timeout = 0,
-              bool repeatAction = false);
+              uint32_t transitionDelay = 0);
     void onInterrupt();
     void whenInterrupted(byte guardState, byte targetState);
     bool performTriggerAction(EvtContext *ctx);
@@ -42,12 +40,15 @@ public:
     byte currentState();
     void setTransitionTime(uint64_t timeInMs);
     uint64_t transitionTime();
+    uint64_t systemTime();
+    void setSystemTime(uint64_t time);
 
 private:
     volatile byte _state = 0;
     InterruptHandler _interruptHandler;
     StateAction _stateActions[MAX_STATES];
     uint64_t _transitionTime;
+    uint64_t _systemTime;
 };
 
 #endif

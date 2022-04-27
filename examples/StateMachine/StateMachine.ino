@@ -8,10 +8,7 @@ const byte IN_PROGRESS = 2;
 
 void wakeUp()
 {
-    if (stateMachine.currentState() == IDLE)
-    {
-        stateMachine.setState(PENDING);
-    }
+    stateMachine.onInterrupt();
 }
 
 bool idle()
@@ -47,11 +44,12 @@ void setup()
 
     pinMode(13, OUTPUT);
 
-    stateMachine.setState(IDLE);
+    stateMachine.transition(IDLE);
 
-    stateMachine.addState(IDLE, (EvtAction)idle), PENDING);
-    stateMachine.addState(PENDING, (EvtAction)pending), IN_PROGRESS);
-    stateMachine.addState(IN_PROGRESS, (EvtAction)inProgress), IDLE);
+    stateMachine.when(IDLE, (EvtAction)idle), PENDING);
+    stateMachine.when(PENDING, (EvtAction)pending), IN_PROGRESS);
+    stateMachine.when(IN_PROGRESS, (EvtAction)inProgress), IDLE);
+    stateMachine.whenInterrupted(IDLE, PENDING);
 
     mgr.addListener(&stateMachine);
 

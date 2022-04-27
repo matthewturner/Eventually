@@ -31,16 +31,17 @@ public:
     void setupListener();
     bool isEventTriggered();
     void when(byte targetState, EvtAction action,
-                  byte successState = NO_TRANSITION, 
-                  byte failureState = STATE_FAILED,
-                  uint32_t timeout = 0,
-                  bool repeatAction = false);
+              byte successState = NO_TRANSITION,
+              byte failureState = STATE_FAILED,
+              uint32_t timeout = 0,
+              bool repeatAction = false);
     void onInterrupt();
     void whenInterrupted(byte guardState, byte targetState);
     bool performTriggerAction(EvtContext *ctx);
-    void setState(byte state);
+    void transition(byte newState);
     byte currentState();
     void setTransitionTime(uint64_t timeInMs);
+    uint64_t transitionTime();
 
 private:
     volatile byte _state = 0;

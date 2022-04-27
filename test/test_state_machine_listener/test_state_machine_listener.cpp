@@ -7,10 +7,12 @@
 using namespace fakeit;
 
 bool triggered = false;
+byte triggerCount = 0;
 
 bool trigger()
 {
     triggered = true;
+    triggerCount++;
     return true;
 }
 
@@ -25,8 +27,9 @@ EvtContext ctx;
 void setUp(void)
 {
     triggered = false;
+    triggerCount = 0;
     target.enable();
-    target.setState(3);
+    target.transition(3);
     target.setTransitionTime(0);
     When(Method(ArduinoFake(), millis)).Return(10);
 }
@@ -44,7 +47,7 @@ void test_triggers_when_enabled(void)
 
 void test_does_not_trigger_when_failed(void)
 {
-    target.setState(STATE_FAILED);
+    target.transition(STATE_FAILED);
     TEST_ASSERT_FALSE(target.isEventTriggered());
 }
 
@@ -112,6 +115,16 @@ void test_transitions_after_timeout(void)
     TEST_ASSERT_EQUAL(4, target.currentState());
 }
 
+void test_executes_only_once_within_state(void)
+{
+    target.setTransitionTime(5);
+    target.when(3, (EvtAction)trigger, 4, 5, 10);
+    target.performTriggerAction(&ctx);
+    target.performTriggerAction(&ctx);
+    target.performTriggerAction(&ctx);
+    TEST_ASSERT_EQUAL(1, triggerCount);
+}
+
 int main(int argc, char **argv)
 {
     UNITY_BEGIN();
@@ -127,6 +140,7 @@ int main(int argc, char **argv)
     RUN_TEST(test_interrupt_transitions_when_guard_state);
     RUN_TEST(test_does_not_transition_before_timeout);
     RUN_TEST(test_transitions_after_timeout);
+    RUN_TEST(test_executes_only_once_within_state);
     UNITY_END();
 
     return 0;

@@ -61,7 +61,7 @@ void StateMachineListener::onInterrupt()
 {
     if (currentState() == _interruptHandler.guardState)
     {
-        setState(_interruptHandler.targetState);
+        transition(_interruptHandler.targetState);
     }
 }
 
@@ -81,14 +81,19 @@ bool StateMachineListener::isEventTriggered()
     return _state != STATE_FAILED;
 }
 
-void StateMachineListener::setState(byte state)
+void StateMachineListener::transition(byte newState)
 {
-    _state = state;
+    _state = newState;
 }
 
 byte StateMachineListener::currentState()
 {
     return _state;
+}
+
+uint64_t StateMachineListener::transitionTime()
+{
+    return _transitionTime;
 }
 
 void StateMachineListener::setupListener()

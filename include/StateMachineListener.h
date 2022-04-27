@@ -49,6 +49,7 @@ private:
     StateAction _stateActions[MAX_STATES];
     uint64_t _transitionTime;
     uint64_t _systemTime;
+    bool _actionExecuted;
 };
 
 #endif

@@ -30,33 +30,41 @@ uint64_t StateMachineListener::systemTime()
 bool StateMachineListener::performTriggerAction(EvtContext *ctx)
 {
     byte currentState = _state;
-    uint64_t currentTime = systemTime();
-
     StateAction s = _stateActions[currentState];
 
-    if (currentTime - _transitionTime <= s.transitionDelay)
+    if (_actionExecuted)
     {
+        uint64_t currentTime = systemTime();
+        if (currentTime - _transitionTime > s.transitionDelay)
+        {
+            if (s.successState != NO_TRANSITION)
+            {
+                transition(s.successState);
+            }
+            return true;
+        }
+        // keep in this state and repeat
         return true;
     }
 
     bool result = (*s.action)(this, ctx);
+    _actionExecuted = true;
     if (result)
     {
-        if (s.successState != NO_TRANSITION)
+        if (s.transitionDelay == 0)
         {
-            _state = s.successState;
+            _actionExecuted = false;
+            if (s.successState != NO_TRANSITION)
+            {
+                transition(s.successState);
+            }
+            return true;
         }
-    }
-    else
-    {
-        _state = s.failureState;
+        // keep in this state and repeat
+        return true;
     }
 
-    if (_state != currentState)
-    {
-        setTransitionTime(currentTime);
-    }
-
+    transition(s.failureState);
     return true;
 }
 
@@ -95,6 +103,7 @@ void StateMachineListener::transition(byte newState)
     {
         _state = newState;
         _transitionTime = systemTime();
+        _actionExecuted = false;
     }
 }
 

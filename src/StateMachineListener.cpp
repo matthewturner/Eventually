@@ -22,7 +22,7 @@ uint64_t StateMachineListener::systemTime()
 {
     if (_systemTime == 0)
     {
-        // return millis();
+        return millis();
     }
     return _systemTime;
 }

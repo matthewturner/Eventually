@@ -166,6 +166,38 @@ void test_executes_only_once_within_state(void)
     TEST_ASSERT_EQUAL(2, triggerCount);
 }
 
+void test_executes_multiple_times_if_no_transition_set(void)
+{
+    When(Method(ArduinoFake(), millis)).AlwaysReturn(1);
+    target.transition(2);
+    target.when(3, (EvtAction)trigger, NO_TRANSITION, STATE_FAILED, 5);
+    When(Method(ArduinoFake(), millis)).AlwaysReturn(1);
+    target.transition(3);
+
+    When(Method(ArduinoFake(), millis)).AlwaysReturn(5);
+    target.performTriggerAction(&ctx);
+    TEST_ASSERT_EQUAL(3, target.currentState());
+    TEST_ASSERT_EQUAL(1, triggerCount);
+
+    // not reached delay
+    When(Method(ArduinoFake(), millis)).AlwaysReturn(6);
+    target.performTriggerAction(&ctx);
+    TEST_ASSERT_EQUAL(3, target.currentState());
+    TEST_ASSERT_EQUAL(1, triggerCount);
+
+    // passed transition delay
+    When(Method(ArduinoFake(), millis)).AlwaysReturn(7);
+    target.performTriggerAction(&ctx);
+    TEST_ASSERT_EQUAL(3, target.currentState());
+    TEST_ASSERT_EQUAL(1, triggerCount);
+
+    // invoke in next state
+    When(Method(ArduinoFake(), millis)).AlwaysReturn(8);
+    target.performTriggerAction(&ctx);
+    TEST_ASSERT_EQUAL(3, target.currentState());
+    TEST_ASSERT_EQUAL(2, triggerCount);
+}
+
 int main(int argc, char **argv)
 {
     UNITY_BEGIN();
@@ -184,6 +216,7 @@ int main(int argc, char **argv)
     RUN_TEST(test_state_transition_updates_time);
     RUN_TEST(test_state_transition_does_not_update_time_if_same_state);
     RUN_TEST(test_executes_only_once_within_state);
+    RUN_TEST(test_executes_multiple_times_if_no_transition_set);
     UNITY_END();
 
     return 0;

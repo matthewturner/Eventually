@@ -18,11 +18,6 @@ void StateMachineListener::when(byte targetState, EvtAction action,
     _stateActions[targetState] = s;
 }
 
-uint64_t StateMachineListener::systemTime()
-{
-    return millis();
-}
-
 bool StateMachineListener::performTriggerAction(EvtContext *ctx)
 {
     byte currentState = _state;
@@ -30,16 +25,20 @@ bool StateMachineListener::performTriggerAction(EvtContext *ctx)
 
     if (_actionExecuted)
     {
-        uint64_t currentTime = systemTime();
-        if (currentTime - _transitionTime > s.transitionDelay)
+        if (!hasPassedTransitionDelay(s.transitionDelay))
         {
-            if (s.successState != NO_TRANSITION)
-            {
-                transition(s.successState);
-            }
+            // keep in this state and repeat
             return true;
         }
-        // keep in this state and repeat
+
+        if (s.successState == NO_TRANSITION)
+        {
+            // keep in this state and repeat action
+            _actionExecuted = false;
+            return true;
+        }
+
+        transition(s.successState);
         return true;
     }
 
@@ -62,6 +61,12 @@ bool StateMachineListener::performTriggerAction(EvtContext *ctx)
 
     transition(s.failureState);
     return true;
+}
+
+bool StateMachineListener::hasPassedTransitionDelay(uint32_t transitionDelay)
+{
+    uint64_t durationInCurrentState = systemTime() - transitionTime();
+    return durationInCurrentState > transitionDelay;
 }
 
 void StateMachineListener::setTransitionTime(uint64_t timeInMs)
@@ -111,6 +116,11 @@ byte StateMachineListener::currentState()
 uint64_t StateMachineListener::transitionTime()
 {
     return _transitionTime;
+}
+
+uint64_t StateMachineListener::systemTime()
+{
+    return millis();
 }
 
 void StateMachineListener::setupListener()

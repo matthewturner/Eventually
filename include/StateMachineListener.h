@@ -48,6 +48,7 @@ private:
     StateAction _stateActions[MAX_STATES];
     uint64_t _transitionTime;
     bool _actionExecuted;
+    bool hasPassedTransitionDelay(uint32_t transitionDelay);
 };
 
 #endif

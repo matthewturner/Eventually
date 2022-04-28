@@ -41,14 +41,12 @@ public:
     void setTransitionTime(uint64_t timeInMs);
     uint64_t transitionTime();
     uint64_t systemTime();
-    void setSystemTime(uint64_t time);
 
 private:
     volatile byte _state = 0;
     InterruptHandler _interruptHandler;
     StateAction _stateActions[MAX_STATES];
     uint64_t _transitionTime;
-    uint64_t _systemTime;
     bool _actionExecuted;
 };
 

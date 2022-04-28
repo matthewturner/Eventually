@@ -20,11 +20,7 @@ void StateMachineListener::when(byte targetState, EvtAction action,
 
 uint64_t StateMachineListener::systemTime()
 {
-    if (_systemTime == 0)
-    {
-        // return millis();
-    }
-    return _systemTime;
+    return millis();
 }
 
 bool StateMachineListener::performTriggerAction(EvtContext *ctx)
@@ -105,11 +101,6 @@ void StateMachineListener::transition(byte newState)
         _transitionTime = systemTime();
         _actionExecuted = false;
     }
-}
-
-void StateMachineListener::setSystemTime(uint64_t timeMs)
-{
-    _systemTime = timeMs;
 }
 
 byte StateMachineListener::currentState()

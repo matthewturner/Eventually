@@ -26,16 +26,16 @@ EvtContext ctx;
 
 void setUp(void)
 {
+    ArduinoFakeReset();
+    When(Method(ArduinoFake(), millis)).AlwaysReturn(10);
     triggered = false;
     triggerCount = 0;
     target.enable();
     target.transition(3);
     target.setTransitionTime(0);
-    target.setSystemTime(10);
     target.when(3, (EvtAction)trigger, 4, 9, 5);
     target.when(4, (EvtAction)trigger, 5, 9, 5);
     target.when(5, (EvtAction)trigger, 6, 9, 5);
-    When(Method(ArduinoFake(), millis)).Return(10);
 }
 
 void test_does_not_trigger_when_disabled(void)
@@ -136,30 +136,31 @@ void test_state_transition_does_not_update_time_if_same_state(void)
 
 void test_executes_only_once_within_state(void)
 {
+    When(Method(ArduinoFake(), millis)).AlwaysReturn(1);
     target.transition(2);
     target.when(3, (EvtAction)trigger, 4, 9, 5);
-    target.setSystemTime(1);
+    When(Method(ArduinoFake(), millis)).AlwaysReturn(1);
     target.transition(3);
 
-    target.setSystemTime(5);
+    When(Method(ArduinoFake(), millis)).AlwaysReturn(5);
     target.performTriggerAction(&ctx);
     TEST_ASSERT_EQUAL(3, target.currentState());
     TEST_ASSERT_EQUAL(1, triggerCount);
 
     // not reached delay
-    target.setSystemTime(6);
+    When(Method(ArduinoFake(), millis)).AlwaysReturn(6);
     target.performTriggerAction(&ctx);
     TEST_ASSERT_EQUAL(3, target.currentState());
     TEST_ASSERT_EQUAL(1, triggerCount);
 
     // passed transition delay
-    target.setSystemTime(7);
+    When(Method(ArduinoFake(), millis)).AlwaysReturn(7);
     target.performTriggerAction(&ctx);
     TEST_ASSERT_EQUAL(4, target.currentState());
     TEST_ASSERT_EQUAL(1, triggerCount);
 
     // invoke in next state
-    target.setSystemTime(8);
+    When(Method(ArduinoFake(), millis)).AlwaysReturn(8);
     target.performTriggerAction(&ctx);
     TEST_ASSERT_EQUAL(4, target.currentState());
     TEST_ASSERT_EQUAL(2, triggerCount);

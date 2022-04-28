@@ -15,7 +15,6 @@ bool idle()
 {
     Serial.println("Idling...");
     digitalWrite(13, LOW);
-    delay(500);
     return true;
 }
 
@@ -29,7 +28,6 @@ bool inProgress()
 {
     Serial.println("In progress...");
     digitalWrite(13, HIGH);
-    delay(500);
     return true;
 }
 
@@ -46,9 +44,9 @@ void setup()
 
     stateMachine.transition(IDLE);
 
-    stateMachine.when(IDLE, (EvtAction)idle), PENDING);
+    stateMachine.when(IDLE, (EvtAction)idle), PENDING, STATE_FAILED, 500);
     stateMachine.when(PENDING, (EvtAction)pending), IN_PROGRESS);
-    stateMachine.when(IN_PROGRESS, (EvtAction)inProgress), IDLE);
+    stateMachine.when(IN_PROGRESS, (EvtAction)inProgress), IDLE, STATE_FAILED, 500);
     stateMachine.whenInterrupted(IDLE, PENDING);
 
     mgr.addListener(&stateMachine);

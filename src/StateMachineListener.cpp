@@ -34,6 +34,7 @@ bool StateMachineListener::performTriggerAction(EvtContext *ctx)
         if (s.successState == NO_TRANSITION)
         {
             // keep in this state and repeat action
+            setTransitionTime(systemTime());
             _actionExecuted = false;
             return true;
         }

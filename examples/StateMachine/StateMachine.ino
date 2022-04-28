@@ -52,7 +52,7 @@ void setup()
     mgr.addListener(&stateMachine);
 
     pinMode(2, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(2), wakeUp, LOW);
+    attachInterrupt(digitalPinToInterrupt(2), wakeUp, FALLING);
 
     Serial.println("Setup complete, continuing...");
 }

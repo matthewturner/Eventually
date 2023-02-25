@@ -28,3 +28,8 @@ bool EvtByteListener::isEventTriggered()
 
     return true;
 }
+
+EvtByteListener::~EvtByteListener()
+{
+    
+}

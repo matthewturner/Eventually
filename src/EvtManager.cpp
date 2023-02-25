@@ -2,15 +2,16 @@
 
 EvtManager::EvtManager()
 {
+    printf("xxxxx\n");
     pushContext(&_defaultContext);
 }
 
-void EvtManager::addListener(EvtListener *lstn)
+void EvtManager::addListener(IEvtListener *lstn)
 {
     currentContext()->addListener(lstn);
 }
 
-void EvtManager::removeListener(EvtListener *lstn)
+void EvtManager::removeListener(IEvtListener *lstn)
 {
     currentContext()->removeListener(lstn);
 }
@@ -42,4 +43,11 @@ EvtContext *EvtManager::popContext()
 void EvtManager::loopIteration()
 {
     currentContext()->loopIteration();
+}
+
+void EvtManager::reset()
+{
+    printf("Resetting...\n");
+    _contextOffset = 1;
+    currentContext()->setup();
 }

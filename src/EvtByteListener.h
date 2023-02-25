@@ -10,6 +10,7 @@ public:
     EvtByteListener(volatile byte *variable, byte targetValue, EvtAction action);
     void setupListener();
     bool isEventTriggered();
+    ~EvtByteListener();
 
 private:
     volatile byte *_variable;

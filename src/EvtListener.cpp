@@ -1,6 +1,6 @@
 #include "EvtListener.h"
 
-EvtListener::~EvtListener() 
+EvtListener::~EvtListener()
 {
 }
 
@@ -22,7 +22,7 @@ void EvtListener::disable()
 {
   this->_enabled = false;
 }
-  
+
 void EvtListener::enable()
 {
   this->_enabled = true;

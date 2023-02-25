@@ -20,13 +20,13 @@ public:
   void resetContext();
   EvtContext *popContext();
   EvtContext *currentContext();
-  void addListener(EvtListener *lstn);
-  void removeListener(EvtListener *lstn);
+  void addListener(IEvtListener *lstn);
+  void removeListener(IEvtListener *lstn);
+  void reset();
 
 private:
   EvtContext *_contextStack[EVENTUALLY_MAX_CONTEXTS];
   byte _contextOffset = 0;
-  byte _contextDepth = 0;
   EvtContext _defaultContext;
 };
 

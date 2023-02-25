@@ -14,7 +14,7 @@
 #define EVENTUALLY_MAX_LISTENERS 5
 #endif
 
-#include "EvtListener.h"
+#include "IEvtListener.h"
 #include <Arduino.h>
 
 class EvtContext
@@ -23,12 +23,15 @@ public:
   EvtContext();
   void setup();
   void loopIteration();
-  void addListener(EvtListener *lstn);
-  void removeListener(EvtListener *lstn);
+  void addListener(IEvtListener *lstn);
+  void removeListener(IEvtListener *lstn);
+  void manageListeners(bool manage);
+  byte listenerCount();
 
 private:
-  EvtListener* _listeners[EVENTUALLY_MAX_LISTENERS];
+  IEvtListener *_listeners[EVENTUALLY_MAX_LISTENERS];
   byte _listenerCount = 0;
+  bool _managesListeners = true;
 };
 
 #endif

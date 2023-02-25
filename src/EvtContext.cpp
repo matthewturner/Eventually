@@ -6,8 +6,10 @@ EvtContext::EvtContext()
 
 void EvtContext::loopIteration()
 {
-    for (int i = 0; i < _listenerCount; i++)
+    printf("111111111\n");
+    for (byte i = 0; i < _listenerCount; i++)
     {
+        printf("111111111\n");
         if (_listeners[i])
         {
             if (_listeners[i]->isEventTriggered())

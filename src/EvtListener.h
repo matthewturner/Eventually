@@ -14,9 +14,7 @@ class EvtContext;
 class EvtListener
 {
 public:
-    void *_extraData = 0;
     EvtAction _triggerAction;
-    bool _enabled = true;
 
     virtual void setupListener();
     virtual bool isEventTriggered();
@@ -27,6 +25,7 @@ public:
     virtual ~EvtListener();
 
 protected:
+    bool _enabled = true;
 };
 
 #endif

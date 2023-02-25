@@ -24,7 +24,7 @@ public:
   void removeListener(EvtListener *lstn);
 
 private:
-  EvtContext *_contextStack = 0;
+  EvtContext *_contextStack[EVENTUALLY_MAX_CONTEXTS];
   byte _contextOffset = 0;
   byte _contextDepth = 0;
 };

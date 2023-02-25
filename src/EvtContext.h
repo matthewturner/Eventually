@@ -21,14 +21,14 @@ class EvtContext
 {
 public:
   EvtContext();
-  void setupContext();
+  void setup();
   void loopIteration();
   void addListener(EvtListener *lstn);
   void removeListener(EvtListener *lstn);
 
 private:
   EvtListener* _listeners[EVENTUALLY_MAX_LISTENERS];
-  byte _listenerCount;
+  byte _listenerCount = 0;
 };
 
 #endif

@@ -16,8 +16,8 @@ class EvtManager
 public:
   EvtManager();
   void loopIteration();
-  EvtContext *pushContext();
-  EvtContext *resetContext();
+  void pushContext(EvtContext *context);
+  void resetContext();
   EvtContext *popContext();
   EvtContext *currentContext();
   void addListener(EvtListener *lstn);
@@ -27,6 +27,7 @@ private:
   EvtContext *_contextStack[EVENTUALLY_MAX_CONTEXTS];
   byte _contextOffset = 0;
   byte _contextDepth = 0;
+  EvtContext _defaultContext;
 };
 
 #endif

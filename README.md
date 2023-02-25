@@ -1,10 +1,8 @@
-Eventually
-==========
+# Eventually
 
 [![PlatformIO CI](https://github.com/matthewturner/Eventually/actions/workflows/platformio.yml/badge.svg)](https://github.com/matthewturner/Eventually/actions/workflows/platformio.yml)
 
-An Arduino Event-based Programming Library
-------------------------------------------
+## An Arduino Event-based Programming Library
 
 Arduino programming is a bit of a bait-and-switch.  At first, people are like, "look, it's super-easy - see my blink program!"  Then, when it comes to writing anything with even the most minute complexity - with states and input and output - one has to switch to a horrid event-programming mindset with thousands of state variables everywhere.
 
@@ -142,8 +140,4 @@ So, for instance, we can rewrite the blink_pin function to not rely on a global 
       return false;
     }
 
-This uses the data variable to store the pin state.  Note that our action function changed signature as well.  The actual signature for the action function is (EvtListener *, EvtContext *).  However, the C++ stack will allow you to have the function with fewer arguments, as long as they are in the right order.  That is why we have to put (EvtAction) in front of our action functions - to get it to the right type.  Note that if we want access to more parts of our listener, we can also use the subclass type instead of just EvtListener if we know which one it will be.
-
-### Future Expansion
-
-The two biggest features I want to add are (a) support for multiple contexts, and (b) declarative creation of a state machine.  There is some code in there for (a), but it is not ready to use.
+This uses the data variable to store the pin state.  Note that our action function changed signature as well.  The actual signature for the action function is (EvtListener \*, EvtContext \*).  However, the C++ stack will allow you to have the function with fewer arguments, as long as they are in the right order.  That is why we have to put (EvtAction) in front of our action functions - to get it to the right type.  Note that if we want access to more parts of our listener, we can also use the subclass type instead of just EvtListener if we know which one it will be.

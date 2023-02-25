@@ -2,46 +2,44 @@
 
 EvtManager::EvtManager()
 {
-    _contextStack[_contextOffset] = new EvtContext();
-    _contextStack[_contextOffset]->setupContext();
+    pushContext(&_defaultContext);
 }
 
 void EvtManager::addListener(EvtListener *lstn)
 {
-    printf("111111111\n");
-    _contextStack[_contextOffset]->addListener(lstn);
+    currentContext()->addListener(lstn);
 }
 
 void EvtManager::removeListener(EvtListener *lstn)
 {
-    _contextStack[_contextOffset]->removeListener(lstn);
+    currentContext()->removeListener(lstn);
 }
 
 EvtContext *EvtManager::currentContext()
 {
-    return _contextStack[_contextOffset];
+    return _contextStack[_contextOffset - 1];
 }
 
-EvtContext *EvtManager::pushContext()
+void EvtManager::pushContext(EvtContext *context)
 {
+    context->setup();
+    _contextStack[_contextOffset] = context;
     _contextOffset++;
-    _contextStack[_contextOffset]->setupContext();
-    return _contextStack[_contextOffset];
 }
 
-EvtContext *EvtManager::resetContext()
+void EvtManager::resetContext()
 {
-    _contextStack[_contextOffset]->setupContext();
-    return _contextStack[_contextOffset];
+    EvtContext *current = currentContext();
+    current->setup();
 }
 
 EvtContext *EvtManager::popContext()
 {
     _contextOffset--;
-    return _contextStack[_contextOffset];
+    return currentContext();
 }
 
 void EvtManager::loopIteration()
 {
-    _contextStack[_contextOffset]->loopIteration();
+    currentContext()->loopIteration();
 }

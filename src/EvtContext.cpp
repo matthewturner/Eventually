@@ -6,14 +6,14 @@ EvtContext::EvtContext()
 
 void EvtContext::loopIteration()
 {
-    for (int i = 0; i < listenerCount; i++)
+    for (int i = 0; i < _listenerCount; i++)
     {
-        if (listeners[i])
-        { // Make sure it isn't deleted
-            if (listeners[i]->isEventTriggered())
-            { // If we are triggered, run the action
-                if (listeners[i]->performTriggerAction(this))
-                { // If the action returns true, stop the chain
+        if (_listeners[i])
+        {
+            if (_listeners[i]->isEventTriggered())
+            {
+                if (_listeners[i]->performTriggerAction(this))
+                {
                     return;
                 }
             }
@@ -27,47 +27,47 @@ void EvtContext::setupContext()
     {
         delete data;
     }
-    if (listeners)
+    if (_listeners)
     {
-        for (int i = 0; i < listenerCount; i++)
+        for (int i = 0; i < _listenerCount; i++)
         {
-            if (listeners[i])
+            if (_listeners[i])
             {
-                delete listeners[i];
+                delete _listeners[i];
             }
         }
-        delete listeners;
+        delete _listeners;
     }
 
-    listeners = new EvtListener *[EVENTUALLY_MAX_LISTENERS];
-    listenerCount = 0;
+    _listeners = new EvtListener *[EVENTUALLY_MAX_LISTENERS];
+    _listenerCount = 0;
 }
 
 void EvtContext::addListener(EvtListener *lstn)
 {
-    for (int i = 0; i < listenerCount; i++)
+    for (int i = 0; i < _listenerCount; i++)
     { // Try to add in empty slot
-        if (listeners[listenerCount] == 0)
+        if (_listeners[_listenerCount] == 0)
         {
-            listeners[listenerCount] = lstn;
+            _listeners[_listenerCount] = lstn;
             return;
         }
     }
 
     // No empty slot, just add it
-    listeners[listenerCount] = lstn;
+    _listeners[_listenerCount] = lstn;
     lstn->setupListener();
     listenerCount++;
 }
 
 void EvtContext::removeListener(EvtListener *lstn)
 {
-    for (int i = 0; i < listenerCount; i++)
+    for (int i = 0; i < _listenerCount; i++)
     {
-        if (listeners[i] == lstn)
+        if (_listeners[i] == lstn)
         {
             delete lstn;
-            listeners[i] = 0;
+            _listeners[i] = 0;
         }
     }
 }

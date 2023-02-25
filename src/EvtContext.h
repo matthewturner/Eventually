@@ -7,12 +7,16 @@
 #ifndef EvtContext_h
 #define EvtContext_h
 
-#define EVENTUALLY_MAX_CONTEXTS 10
-#define EVENTUALLY_MAX_LISTENERS 20
+#ifndef EVENTUALLY_MAX_CONTEXTS
+#define EVENTUALLY_MAX_CONTEXTS 1
+#endif
+#ifndef EVENTUALLY_MAX_LISTENERS
+#define EVENTUALLY_MAX_LISTENERS 5
+#endif
 
 #include "EvtListener.h"
+#include <Arduino.h>
 
-// Note - should probably expand the number of available listeners by chaining contexts
 class EvtContext
 {
 public:
@@ -25,8 +29,8 @@ public:
   void removeListener(EvtListener *lstn);
 
 private:
-  EvtListener **listeners = 0;
-  int listenerCount;
+  EvtListener _listeners[EVENTUALLY_MAX_LISTENERS];
+  byte _listenerCount;
 };
 
 #endif

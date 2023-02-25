@@ -1,5 +1,9 @@
 #include "EvtListener.h"
 
+EvtListener::~EvtListener() 
+{
+}
+
 void EvtListener::setupListener()
 {
 }

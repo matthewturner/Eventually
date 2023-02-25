@@ -24,6 +24,7 @@ public:
 
     virtual void disable();
     virtual void enable();
+    virtual ~EvtListener();
 
 protected:
 };

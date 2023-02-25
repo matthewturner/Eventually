@@ -20,8 +20,6 @@
 class EvtContext
 {
 public:
-  void *data = 0;
-
   EvtContext();
   void setupContext();
   void loopIteration();
@@ -29,7 +27,7 @@ public:
   void removeListener(EvtListener *lstn);
 
 private:
-  EvtListener _listeners[EVENTUALLY_MAX_LISTENERS];
+  EvtListener* _listeners[EVENTUALLY_MAX_LISTENERS];
   byte _listenerCount;
 };
 

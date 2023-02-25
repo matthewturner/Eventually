@@ -9,6 +9,7 @@
 
 #include "EvtContext.h"
 #include "EvtListener.h"
+#include <Arduino.h>
 
 class EvtManager
 {
@@ -23,9 +24,9 @@ public:
   void removeListener(EvtListener *lstn);
 
 private:
-  EvtContext *contextStack = 0;
-  int contextOffset = 0;
-  int contextDepth = 0;
+  EvtContext *_contextStack = 0;
+  byte _contextOffset = 0;
+  byte _contextDepth = 0;
 };
 
 #endif

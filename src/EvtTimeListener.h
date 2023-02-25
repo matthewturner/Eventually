@@ -18,15 +18,15 @@ class EvtTimeListener : public EvtListener
 public:
     EvtTimeListener();
     EvtTimeListener(unsigned long time, bool multiFire, EvtAction trigger);
-    unsigned long millis;
     void setupListener();
     bool isEventTriggered();
     bool performTriggerAction(EvtContext *);
 
 private:
-    unsigned long startMillis;
-    bool multiFire = false;
-    bool hasExecuted = false;
+    unsigned long _millis;
+    unsigned long _startMillis;
+    bool _multiFire = false;
+    bool _hasExecuted = false;
 };
 
 #endif

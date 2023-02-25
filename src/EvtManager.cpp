@@ -2,45 +2,45 @@
 
 EvtManager::EvtManager()
 {
-    contextStack = new EvtContext[EVENTUALLY_MAX_CONTEXTS];
-    contextStack[contextOffset].setupContext();
+    _contextStack = new EvtContext[EVENTUALLY_MAX_CONTEXTS];
+    _contextStack[_contextOffset].setupContext();
 }
 
 void EvtManager::addListener(EvtListener *lstn)
 {
-    contextStack[contextOffset].addListener(lstn);
+    _contextStack[_contextOffset].addListener(lstn);
 }
 
 void EvtManager::removeListener(EvtListener *lstn)
 {
-    contextStack[contextOffset].removeListener(lstn);
+    _contextStack[_contextOffset].removeListener(lstn);
 }
 
 EvtContext *EvtManager::currentContext()
 {
-    return &contextStack[contextOffset];
+    return &_contextStack[_contextOffset];
 }
 
 EvtContext *EvtManager::pushContext()
 {
-    contextOffset++;
-    contextStack[contextOffset].setupContext();
-    return &contextStack[contextOffset];
+    _contextOffset++;
+    _contextStack[_contextOffset].setupContext();
+    return &_contextStack[_contextOffset];
 }
 
 EvtContext *EvtManager::resetContext()
 {
-    contextStack[contextOffset].setupContext();
-    return &contextStack[contextOffset];
+    _contextStack[_contextOffset].setupContext();
+    return &_contextStack[_contextOffset];
 }
 
 EvtContext *EvtManager::popContext()
 {
-    contextOffset--;
-    return &contextStack[contextOffset];
+    _contextOffset--;
+    return &_contextStack[_contextOffset];
 }
 
 void EvtManager::loopIteration()
 {
-    contextStack[contextOffset].loopIteration();
+    _contextStack[_contextOffset].loopIteration();
 }

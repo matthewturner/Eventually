@@ -17,15 +17,16 @@ public:
   EvtPinListener(int pin, EvtAction trigger);
   EvtPinListener(int pin, int debounce, EvtAction action);
   EvtPinListener(int pin, int debounce, bool targetValue, EvtAction action);
-  int pin = 0;
-  int debounce = 40;
-  bool targetValue = HIGH;
-  bool mustStartOpposite = true;
-  bool startState;
-  unsigned long firstNoticed = 0;
-
   void setupListener();
   bool isEventTriggered();
+
+private:
+  int _pin = 0;
+  int _debounce = 40;
+  bool _targetValue = HIGH;
+  bool _mustStartOpposite = true;
+  bool _startState;
+  unsigned long _firstNoticed = 0;
 };
 
 #endif

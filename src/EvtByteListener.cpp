@@ -4,7 +4,7 @@ EvtByteListener::EvtByteListener(volatile byte *variable, byte targetValue, EvtA
 {
     _variable = variable;
     _targetValue = targetValue;
-    triggerAction = action;
+    _triggerAction = action;
 }
 
 void EvtByteListener::setupListener()

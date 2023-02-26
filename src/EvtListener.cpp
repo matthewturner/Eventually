@@ -4,7 +4,7 @@ EvtListener::~EvtListener()
 {
 }
 
-void EvtListener::setupListener()
+void EvtListener::reset()
 {
 }
 
@@ -25,6 +25,6 @@ void EvtListener::disable()
 
 void EvtListener::enable()
 {
-  this->_enabled = true;
-  this->setupListener();
+  _enabled = true;
+  reset();
 }

@@ -11,7 +11,7 @@ EvtTimeListener::EvtTimeListener(unsigned long time, bool multiFire, EvtAction t
     this->_multiFire = multiFire;
 }
 
-void EvtTimeListener::setupListener()
+void EvtTimeListener::reset()
 {
     _startMillis = ::millis();
     _hasExecuted = false;
@@ -57,7 +57,7 @@ bool EvtTimeListener::performTriggerAction(EvtContext *c)
     if (_multiFire)
     {
         // On multifire, setup to receive the event again
-        setupListener();
+        reset();
         // On multifire, we shouldn't stop the event chain no matter what, since we are just restarting in this context
         return false;
     }

@@ -15,25 +15,25 @@ void EvtManager::removeListener(IEvtListener *lstn)
     currentContext()->removeListener(lstn);
 }
 
-EvtContext *EvtManager::currentContext()
+IEvtContext *EvtManager::currentContext()
 {
     return _contextStack[_contextOffset - 1];
 }
 
-void EvtManager::pushContext(EvtContext *context)
+void EvtManager::pushContext(IEvtContext *context)
 {
-    context->setup();
+    context->reset();
     _contextStack[_contextOffset] = context;
     _contextOffset++;
 }
 
 void EvtManager::resetContext()
 {
-    EvtContext *current = currentContext();
-    current->setup();
+    IEvtContext *current = currentContext();
+    current->reset();
 }
 
-EvtContext *EvtManager::popContext()
+IEvtContext *EvtManager::popContext()
 {
     _contextOffset--;
     return currentContext();
@@ -47,10 +47,15 @@ void EvtManager::loopIteration()
 void EvtManager::reset()
 {
     _contextOffset = 1;
-    currentContext()->setup();
+    currentContext()->reset();
 }
 
 void EvtManager::manageListeners(bool manage)
 {
     currentContext()->manageListeners(manage);
+}
+
+byte EvtManager::listenerCount()
+{
+    return currentContext()->listenerCount();
 }

@@ -18,7 +18,7 @@ class EvtTimeListener : public EvtListener
 public:
     EvtTimeListener();
     EvtTimeListener(unsigned long time, bool multiFire, EvtAction trigger);
-    void setupListener();
+    void reset();
     bool isEventTriggered();
     bool performTriggerAction(EvtContext *);
 

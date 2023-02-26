@@ -12,7 +12,7 @@ Mock<IEvtListener> listenerMock;
 void setUp(void)
 {
     target.manageListeners(false);
-    When(Method(listenerMock, setupListener)).AlwaysReturn();
+    When(Method(listenerMock, reset)).AlwaysReturn();
     When(Method(listenerMock, isEventTriggered)).AlwaysReturn(true);
     When(Method(listenerMock, performTriggerAction)).AlwaysReturn(true);
     Fake(Dtor(listenerMock));
@@ -49,7 +49,7 @@ void test_reset_context_clears_listeners(void)
     target.addListener(listener);
     target.resetContext();
 
-    TEST_ASSERT_EQUAL(0, target.currentContext()->listenerCount());
+    TEST_ASSERT_EQUAL(0, target.listenerCount());
 }
 
 int main(int argc, char **argv)

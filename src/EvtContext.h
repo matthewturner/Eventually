@@ -15,18 +15,19 @@
 #endif
 
 #include "IEvtListener.h"
+#include "IEvtContext.h"
 #include <Arduino.h>
 
-class EvtContext
+class EvtContext : public IEvtContext
 {
 public:
   EvtContext();
-  void setup();
-  void loopIteration();
-  void addListener(IEvtListener *lstn);
-  void removeListener(IEvtListener *lstn);
-  void manageListeners(bool manage);
-  byte listenerCount();
+  virtual void reset() override;
+  virtual void loopIteration() override;
+  virtual void addListener(IEvtListener *lstn) override;
+  virtual void removeListener(IEvtListener *lstn) override;
+  virtual void manageListeners(bool manage) override;
+  virtual byte listenerCount() override;
 
 private:
   IEvtListener *_listeners[EVENTUALLY_MAX_LISTENERS];

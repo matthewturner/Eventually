@@ -15,7 +15,7 @@ class IEvtListener
 {
 public:
     IEvtListener();
-    virtual void setupListener() = 0;
+    virtual void reset() = 0;
     virtual bool isEventTriggered() = 0;
     virtual bool performTriggerAction(EvtContext *) = 0; // return false to stop the current chain
 

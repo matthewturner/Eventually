@@ -4,7 +4,7 @@ MockEvtListener::~MockEvtListener()
 {
 }
 
-void MockEvtListener::setupListener()
+void MockEvtListener::reset()
 {
 }
 

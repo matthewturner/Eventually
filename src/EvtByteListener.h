@@ -8,7 +8,7 @@ class EvtByteListener : public EvtListener
 {
 public:
     EvtByteListener(volatile byte *variable, byte targetValue, EvtAction action);
-    void setupListener();
+    void reset();
     bool isEventTriggered();
     ~EvtByteListener();
 

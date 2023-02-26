@@ -17,7 +17,7 @@ public:
   EvtPinListener(int pin, EvtAction trigger);
   EvtPinListener(int pin, int debounce, EvtAction action);
   EvtPinListener(int pin, int debounce, bool targetValue, EvtAction action);
-  void setupListener();
+  void reset();
   bool isEventTriggered();
 
 private:

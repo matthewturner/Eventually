@@ -7,7 +7,7 @@ EvtByteListener::EvtByteListener(volatile byte *variable, byte targetValue, EvtA
     _triggerAction = action;
 }
 
-void EvtByteListener::setupListener()
+void EvtByteListener::reset()
 {
 }
 

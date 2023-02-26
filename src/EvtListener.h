@@ -15,7 +15,7 @@ class EvtContext;
 class EvtListener : public IEvtListener
 {
 public:
-    virtual void setupListener() override;
+    virtual void reset() override;
     virtual bool isEventTriggered() override;
     virtual bool performTriggerAction(EvtContext *) override; // return false to stop the current chain
 

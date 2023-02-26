@@ -11,22 +11,24 @@
 #include "EvtListener.h"
 #include <Arduino.h>
 
-class EvtManager
+class EvtManager : public IEvtContext
 {
 public:
   EvtManager();
-  void loopIteration();
-  void pushContext(EvtContext *context);
+  void pushContext(IEvtContext *context);
   void resetContext();
-  EvtContext *popContext();
-  EvtContext *currentContext();
-  void addListener(IEvtListener *lstn);
-  void removeListener(IEvtListener *lstn);
-  void manageListeners(bool manage);
-  void reset();
+  IEvtContext *popContext();
+  IEvtContext *currentContext();
+
+  virtual void reset() override;
+  virtual void loopIteration() override;
+  virtual void addListener(IEvtListener *lstn) override;
+  virtual void removeListener(IEvtListener *lstn) override;
+  virtual void manageListeners(bool manage) override;
+  virtual byte listenerCount() override;
 
 private:
-  EvtContext *_contextStack[EVENTUALLY_MAX_CONTEXTS];
+  IEvtContext *_contextStack[EVENTUALLY_MAX_CONTEXTS];
   byte _contextOffset = 0;
   EvtContext _defaultContext;
 };

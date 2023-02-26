@@ -31,7 +31,7 @@ void EvtContext::loopIteration()
     }
 }
 
-void EvtContext::setup()
+void EvtContext::reset()
 {
     for (byte i = 0; i < _listenerCount; i++)
     {
@@ -60,7 +60,7 @@ void EvtContext::addListener(IEvtListener *lstn)
     }
 
     _listeners[_listenerCount] = lstn;
-    lstn->setupListener();
+    lstn->reset();
     _listenerCount++;
 }
 

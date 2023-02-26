@@ -25,7 +25,7 @@ EvtPinListener::EvtPinListener(int pin, EvtAction action)
   _triggerAction = action;
 }
 
-void EvtPinListener::setupListener()
+void EvtPinListener::reset()
 {
   _startState = digitalRead(_pin);
 }

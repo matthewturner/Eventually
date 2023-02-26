@@ -2,6 +2,7 @@
 #include <unity.h>
 
 #include "EvtManager.h"
+#include "MockEvtListener.h"
 
 using namespace fakeit;
 
@@ -10,7 +11,7 @@ Mock<IEvtListener> listenerMock;
 
 void setUp(void)
 {
-    target.currentContext()->manageListeners(false);
+    target.manageListeners(false);
     When(Method(listenerMock, setupListener)).AlwaysReturn();
     When(Method(listenerMock, isEventTriggered)).AlwaysReturn(true);
     When(Method(listenerMock, performTriggerAction)).AlwaysReturn(true);
@@ -43,8 +44,9 @@ void test_push_sets_new_context(void)
 
 void test_reset_context_clears_listeners(void)
 {
-    IEvtListener &listener = listenerMock.get();
-    target.addListener(&listener);
+    target.manageListeners(true);
+    IEvtListener *listener = new MockEvtListener();
+    target.addListener(listener);
     target.resetContext();
 
     TEST_ASSERT_EQUAL(0, target.currentContext()->listenerCount());

@@ -50,7 +50,6 @@ void EvtContext::setup()
 
 void EvtContext::addListener(IEvtListener *lstn)
 {
-    printf("Listener count: %d\n", _listenerCount);
     for (byte i = 0; i < _listenerCount; i++)
     {
         if (_listeners[_listenerCount] == 0)

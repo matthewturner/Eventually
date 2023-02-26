@@ -22,6 +22,7 @@ public:
   EvtContext *currentContext();
   void addListener(IEvtListener *lstn);
   void removeListener(IEvtListener *lstn);
+  void manageListeners(bool manage);
   void reset();
 
 private:

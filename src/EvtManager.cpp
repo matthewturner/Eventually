@@ -2,7 +2,6 @@
 
 EvtManager::EvtManager()
 {
-    printf("xxxxx\n");
     pushContext(&_defaultContext);
 }
 
@@ -47,7 +46,11 @@ void EvtManager::loopIteration()
 
 void EvtManager::reset()
 {
-    printf("Resetting...\n");
     _contextOffset = 1;
     currentContext()->setup();
+}
+
+void EvtManager::manageListeners(bool manage)
+{
+    currentContext()->manageListeners(manage);
 }

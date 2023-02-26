@@ -14,9 +14,9 @@
 #define EVENTUALLY_MAX_LISTENERS 5
 #endif
 
+#include "Common.h"
 #include "IEvtListener.h"
 #include "IEvtContext.h"
-#include <Arduino.h>
 
 class EvtContext : public IEvtContext
 {

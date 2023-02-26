@@ -7,9 +7,9 @@
 #ifndef EvtManager_h
 #define EvtManager_h
 
+#include "Common.h"
 #include "EvtContext.h"
 #include "EvtListener.h"
-#include <Arduino.h>
 
 class EvtManager : public IEvtContext
 {

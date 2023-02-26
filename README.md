@@ -49,7 +49,7 @@ void setup() {
   pinMode(BUTTON_PIN, INPUT);
 
   /* Add a button listener */
-  mgr.addListener(new EvtPinListener(BUTTON_PIN, (EvtAction)start_blinking));
+  mgr.addListener(new EvtPinListener(BUTTON_PIN, (EvtAction)startBlinking));
 }
 ```
 
@@ -64,51 +64,51 @@ void setup() {
 
   /* Add a button listener, listening for LOW */
   /* (To use this constructor, we also have to specify the debounce delay) */
-  mgr.addListener(new EvtPinListener(BUTTON_PIN, 40, LOW, (EvtAction)start_blinking));
+  mgr.addListener(new EvtPinListener(BUTTON_PIN, 40, LOW, (EvtAction)startBlinking));
 }
 ```
 
-This creates a listener for the given button pin, and will call start_blinking when the button is pushed. Note that by default, EvtPinListeners will automatically debounce the pin, and also make sure that it starts in the opposite state before beginning listening (though both of these are configurable).
+This creates a listener for the given button pin, and will call startBlinking when the button is pushed. Note that by default, EvtPinListeners will automatically debounce the pin, and also make sure that it starts in the opposite state before beginning listening (though both of these are configurable).
 
 Also note that we put (EvtAction) in front of our function name. This makes sure the compiler knows that this will be used as an event action. It may not compile without this marking.
 
-Now, when the button is pushed, we need start_blinking to install a new time-based listener to blink the light, and another button listener to stop the blinking. So the code will look like this:
+Now, when the button is pushed, we need startBlinking to install a new time-based listener to blink the light, and another button listener to stop the blinking. So the code will look like this:
 
 ```c++
-bool start_blinking()
+bool startBlinking()
 {
   mgr.resetContext(); 
-  mgr.addListener(new EvtTimeListener(500, true, (EvtAction)blink_pin));
-  mgr.addListener(new EvtPinListener(BUTTON_PIN, (EvtAction)stop_blinking));
+  mgr.addListener(new EvtTimeListener(500, true, (EvtAction)blinkPin));
+  mgr.addListener(new EvtPinListener(BUTTON_PIN, (EvtAction)stopBlinking));
   return true;
 }
 ```
 
 This starts by calling resetContext(), which will uninstall all current listeners to prepare for a new set. Then, it adds a time listener. The first parameter to the EvtTimeListener constructor is the number of milliseconds to wait until firing. In this case, 500 (half a second). The second parameter is whether or not to continually fire.  If it is set to false, it will fire once and then be done. The last parameter is the function to call.
 
-Then it adds a pin listener to call the stop_blinking function when pushed. All triggered actions need to return true or false. "true" stops the current action chain and is usually what you want.
+Then it adds a pin listener to call the stopBlinking function when pushed. All triggered actions need to return true or false. "true" stops the current action chain and is usually what you want.
 
-Now, let's look at the blink_pin function:
+Now, let's look at the blinkPin function:
 
 ```c++
-bool blink_state = LOW;
-bool blink_pin()
+bool blinkState = LOW;
+bool blinkPin()
 {
-  blink_state = !blink_state;
-  digitalWrite(LIGHT_PIN, blink_state);
+  blinkState = !blinkState;
+  digitalWrite(LIGHT_PIN, blinkState);
   return false;
 }
 ```
 
 This creates a global variable that tells us the blink state, and whenever this is called, it alternates the blink state and writes that to the pin. This one returns false because, since the blinking doesn't affect the action of other pins, the event chain should continue.
 
-Finally, we need a stop_blinking() function. All this will do is create a new listener to wait for it to start again:
+Finally, we need a stopBlinking() function. All this will do is create a new listener to wait for it to start again:
 
 ```c++
-bool stop_blinking()
+bool stopBlinking()
 {
   mgr.resetContext();
-  mgr.addListener(new EvtPinListener(BUTTON_PIN, (EvtAction)start_blinking));
+  mgr.addListener(new EvtPinListener(BUTTON_PIN, (EvtAction)startBlinking));
   return true;
 }
 ```
@@ -121,12 +121,55 @@ One of the goals of this library was to make it use the flexibility of C++ witho
 
 One main goal is to take advantage of the flexibility available with C++ pointers but without exposing the user to them. Therefore, listeners are always created with the "new" keyword, but they are immediately added to the manager (technically, the context) which then manages it. Once the listener is added to the manager/context, then the responsibility for its memory management goes to the manager/context. Note that at this time, there is no ability for user code to detect when a listener gets destroyed, so if you add data to a listener (see section below), then it should not rely on the listener to destroy the data at the right time.
 
+### Heap fragmentation/Memory allocation
+
+While the above approach works, it may:
+
+1. lead to heap fragmentation and you may run out of memory
+2. prevent Arduino/PlatformIO from estimating memory usage
+
+Instead, consider enabling/disabling listeners:
+
+```c++
+EvtManager mgr;
+EvtPinListener startBlinkListener(BUTTON_PIN, (EvtAction)startBlinking);
+EvtPinListener stopBlinkListener(BUTTON_PIN, (EvtAction)stopBlinking);
+
+void setup()
+{
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+
+  mgr.addListener(&startBlinkListener);
+  mgr.addListener(&stopBlinkListener);
+  
+  stopBlinkListener.disable();
+}
+
+bool startBlinking()
+{
+  startBlinkListener.disable();
+  stopBlinkListener.enable();
+  return true;
+}
+
+bool stopBlinking()
+{
+  stopBlinkListener.disable();
+  return true;
+}
+
+void loop()
+{
+  mgr.loopIteration();
+}
+```
+
 ### Writing Your Own Listeners
 
 If you need a more advanced listener, you can write your own fairly easily:
 
 * Implement the IEvtListener interface or create a subclass of EvtListener
-* Add a constructor
+* Add a constructor/destructor
 * Add a `reset()` method
 * Add an `isEventTriggered()` method
 
@@ -141,6 +184,7 @@ class EvtAlwaysFiresListener : public EvtListener
 {
   public:
   EvtAlwaysFiresListener();
+  ~EvtAlwaysFiresListener();
   void reset();
   bool isEventTriggered();
 }
@@ -148,6 +192,11 @@ class EvtAlwaysFiresListener : public EvtListener
 EvtAlwaysFiresListener::EvtAlwaysFiresListener()
 {
   // Nothing to construct
+}
+
+EvtAlwaysFiresListener::~EvtAlwaysFiresListener()
+{
+  // Nothing to destruct
 }
 
 void EvtAlwaysFiresListener::reset()
@@ -165,7 +214,10 @@ bool EvtAlwaysFiresListener::isEventTriggered()
 
 Some of the differences are down to personal preference and others were to help with memory management in the memory-constrained environment of the Arduino Nano.
 
-* Favour explicitly calling the `mgr.loopIteration()`
+* Control the number of listeners (default: 10) and contexts (default: 1)
 * Reduce reliance on heap allocation
+* Work with Arduino/PlatformIO memory tools
 * Unit tests
-* Extract interfaces
+* Extract/implement interfaces
+* Favour explicitly calling the `mgr.loopIteration()`
+* Remove compiler warnings in derived projects

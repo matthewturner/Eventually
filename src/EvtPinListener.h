@@ -14,14 +14,14 @@ class EvtPinListener : public EvtListener
 {
 public:
   EvtPinListener();
-  EvtPinListener(int pin, EvtAction trigger);
-  EvtPinListener(int pin, int debounce, EvtAction action);
-  EvtPinListener(int pin, int debounce, bool targetValue, EvtAction action);
+  EvtPinListener(byte pin, EvtAction trigger);
+  EvtPinListener(byte pin, int debounce, EvtAction action);
+  EvtPinListener(byte pin, int debounce, bool targetValue, EvtAction action);
   void reset();
   bool isEventTriggered();
 
 private:
-  int _pin = 0;
+  byte _pin = 0;
   int _debounce = 40;
   bool _targetValue = HIGH;
   bool _mustStartOpposite = true;

@@ -15,14 +15,11 @@ bool EvtByteListener::isEventTriggered()
 {
     if (!EvtListener::isEventTriggered())
     {
-        // Serial.print("NotEnabled");
         return false;
     }
 
     if (*_variable != _targetValue)
     {
-        // Serial.print("NotTarget");
-        // Serial.print(*_variable);
         return false;
     }
 
@@ -31,5 +28,4 @@ bool EvtByteListener::isEventTriggered()
 
 EvtByteListener::~EvtByteListener()
 {
-    
 }

@@ -4,7 +4,7 @@ EvtPinListener::EvtPinListener()
 {
 }
 
-EvtPinListener::EvtPinListener(int pin, int debounce, bool targetValue, EvtAction action)
+EvtPinListener::EvtPinListener(byte pin, int debounce, bool targetValue, EvtAction action)
 {
   _pin = pin;
   _debounce = debounce;
@@ -12,14 +12,14 @@ EvtPinListener::EvtPinListener(int pin, int debounce, bool targetValue, EvtActio
   _triggerAction = action;
 }
 
-EvtPinListener::EvtPinListener(int pin, int debounce, EvtAction action)
+EvtPinListener::EvtPinListener(byte pin, int debounce, EvtAction action)
 {
   _pin = pin;
   _debounce = debounce;
   _triggerAction = action;
 }
 
-EvtPinListener::EvtPinListener(int pin, EvtAction action)
+EvtPinListener::EvtPinListener(byte pin, EvtAction action)
 {
   _pin = pin;
   _triggerAction = action;

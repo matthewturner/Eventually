@@ -9,21 +9,6 @@ void EvtContext::manageListeners(bool manage)
     _managesListeners = manage;
 }
 
-byte EvtContext::listenerCount()
-{
-    byte listenerCount = 0;
-    
-    for (byte i = 0; i < _listenerCount; i++)
-    {
-        if (_listeners[i])
-        {
-            listenerCount++;
-        }
-    }
-
-    return listenerCount;
-}
-
 void EvtContext::loopIteration()
 {
     for (byte i = 0; i < _listenerCount; i++)
@@ -93,4 +78,19 @@ void EvtContext::removeListener(IEvtListener *lstn)
             }
         }
     }
+}
+
+byte EvtContext::listenerCount()
+{
+    byte listenerCount = 0;
+    
+    for (byte i = 0; i < _listenerCount; i++)
+    {
+        if (_listeners[i])
+        {
+            listenerCount++;
+        }
+    }
+
+    return listenerCount;
 }

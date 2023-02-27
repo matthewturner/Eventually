@@ -212,12 +212,15 @@ bool EvtAlwaysFiresListener::isEventTriggered()
 
 ## Differences with the original
 
-Some of the differences are down to personal preference and others were to help with memory management in the memory-constrained environment of the Arduino Nano.
+Some of the capabilities were not being used and have been removed to conserve memory. Some other benefits over the original:
 
+* Reduced memory consumption with simplified EvtManager
 * Control the number of listeners (default: 10) and contexts (default: 1)
-* Reduce reliance on heap allocation
-* Work with Arduino/PlatformIO memory tools
+* Bug fixes
 * Unit tests
+* Ability to enable/disable listeners
+* Remove compiler warnings in derived projects
+* Reduced reliance on heap allocation
+* Work with Arduino/PlatformIO memory tools
 * Extract/implement interfaces
 * Favour explicitly calling the `mgr.loopIteration()`
-* Remove compiler warnings in derived projects

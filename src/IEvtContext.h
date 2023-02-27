@@ -16,23 +16,24 @@ public:
 
   /// @brief Executes all listeners in this cycle.
   virtual void loopIteration() = 0;
-  
+
   /// @brief Adds a listener to the list of listeners.
-  /// @param lstn 
+  /// @param lstn
   virtual void addListener(IEvtListener *lstn) = 0;
 
   /// @brief Removes the listener and frees memory (using delete).
   /// Potentially introduces fragmentation of the heap so use sparingly.
   /// Consider disabling the listener instead.
-  /// @param lstn 
+  /// @param lstn
   virtual void removeListener(IEvtListener *lstn) = 0;
 
-  /// @brief Determines whether memory is controlled by the context or caller
+  /// @brief Determines whether memory is controlled by
+  /// the context or caller
   /// @param manage
   virtual void manageListeners(bool manage) = 0;
 
   /// @brief The count of listeners registered with the context
-  /// @return 
+  /// @return
   virtual byte listenerCount() = 0;
 };
 

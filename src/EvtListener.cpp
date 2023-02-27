@@ -1,9 +1,5 @@
 #include "EvtListener.h"
 
-EvtListener::~EvtListener()
-{
-}
-
 void EvtListener::reset()
 {
 }
@@ -20,11 +16,15 @@ bool EvtListener::performTriggerAction(IEvtContext *ctx)
 
 void EvtListener::disable()
 {
-  this->_enabled = false;
+  _enabled = false;
 }
 
 void EvtListener::enable()
 {
   _enabled = true;
   reset();
+}
+
+EvtListener::~EvtListener()
+{
 }

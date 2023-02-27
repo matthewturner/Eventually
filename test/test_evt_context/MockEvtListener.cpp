@@ -1,9 +1,5 @@
 #include "MockEvtListener.h"
 
-MockEvtListener::~MockEvtListener()
-{
-}
-
 void MockEvtListener::reset()
 {
 }
@@ -30,4 +26,8 @@ void MockEvtListener::enable()
 bool MockEvtListener::hasBeenTriggered()
 {
     return _triggered;
+}
+
+MockEvtListener::~MockEvtListener()
+{
 }

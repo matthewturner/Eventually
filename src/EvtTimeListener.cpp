@@ -4,11 +4,11 @@ EvtTimeListener::EvtTimeListener()
 {
 }
 
-EvtTimeListener::EvtTimeListener(unsigned long time, bool multiFire, EvtAction t)
+EvtTimeListener::EvtTimeListener(unsigned long time, bool multiFire, EvtAction triggerAction)
 {
-    this->_millis = time;
-    this->_triggerAction = t;
-    this->_multiFire = multiFire;
+    _millis = time;
+    _triggerAction = triggerAction;
+    _multiFire = multiFire;
 }
 
 void EvtTimeListener::reset()

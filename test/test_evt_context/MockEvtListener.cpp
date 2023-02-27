@@ -25,7 +25,7 @@ void MockEvtListener::enable()
 
 bool MockEvtListener::hasBeenTriggered()
 {
-    return _triggered;
+  return _triggered;
 }
 
 MockEvtListener::~MockEvtListener()

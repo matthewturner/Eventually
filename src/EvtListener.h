@@ -17,7 +17,7 @@ class EvtListener : public IEvtListener
 public:
     virtual void reset() override;
     virtual bool isEventTriggered() override;
-    virtual bool performTriggerAction(IEvtContext *) override; // return false to stop the current chain
+    virtual bool performTriggerAction(IEvtContext *) override;
 
     virtual void disable() override;
     virtual void enable() override;

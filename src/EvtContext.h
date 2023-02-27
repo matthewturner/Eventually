@@ -26,6 +26,10 @@ public:
   virtual void loopIteration() override;
   virtual void addListener(IEvtListener *lstn) override;
   virtual void removeListener(IEvtListener *lstn) override;
+
+  /// @brief Determines whether to free memory allocated
+  /// to listener or leave to consumer
+  /// @param manage
   virtual void manageListeners(bool manage) override;
   virtual byte listenerCount() override;
 

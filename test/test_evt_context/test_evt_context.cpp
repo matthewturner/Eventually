@@ -24,6 +24,37 @@ void tearDown(void)
     target.reset();
 }
 
+void test_add_listener_resets_listener(void)
+{
+    IEvtListener &listener = listenerMock.get();
+    target.addListener(&listener);
+    Verify(Method(listenerMock, reset)).Once();
+}
+
+void test_add_listener_in_middle_slot_resets_listener(void)
+{
+    MockEvtListener *listenerToRemove = new MockEvtListener();
+    target.addListener(listenerToRemove);
+    target.addListener(new MockEvtListener());
+    target.removeListener(listenerToRemove);
+
+    IEvtListener &listener = listenerMock.get();
+    // add in the newly vacated slot
+    target.addListener(&listener);
+
+    Verify(Method(listenerMock, reset)).Once();
+}
+
+void test_listener_count_does_not_include_empty_slots(void)
+{
+    MockEvtListener *listenerToRemove = new MockEvtListener();
+    target.addListener(listenerToRemove);
+    target.addListener(new MockEvtListener());
+    target.removeListener(listenerToRemove);
+
+    TEST_ASSERT_EQUAL(1, target.listenerCount());
+}
+
 void test_loop_iteration_calls_listener(void)
 {
     IEvtListener &listener = listenerMock.get();
@@ -45,6 +76,9 @@ void test_reset_clears_listeners(void)
 int main(int argc, char **argv)
 {
     UNITY_BEGIN();
+    RUN_TEST(test_add_listener_resets_listener);
+    RUN_TEST(test_add_listener_in_middle_slot_resets_listener);
+    RUN_TEST(test_listener_count_does_not_include_empty_slots);
     RUN_TEST(test_loop_iteration_calls_listener);
     RUN_TEST(test_reset_clears_listeners);
     UNITY_END();

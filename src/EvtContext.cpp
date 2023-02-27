@@ -11,7 +11,17 @@ void EvtContext::manageListeners(bool manage)
 
 byte EvtContext::listenerCount()
 {
-    return _listenerCount;
+    byte listenerCount = 0;
+    
+    for (byte i = 0; i < _listenerCount; i++)
+    {
+        if (_listeners[i])
+        {
+            listenerCount++;
+        }
+    }
+
+    return listenerCount;
 }
 
 void EvtContext::loopIteration()
@@ -52,15 +62,16 @@ void EvtContext::addListener(IEvtListener *lstn)
 {
     for (byte i = 0; i < _listenerCount; i++)
     {
-        if (_listeners[_listenerCount] == 0)
+        if (_listeners[i] == 0)
         {
-            _listeners[_listenerCount] = lstn;
+            lstn->reset();
+            _listeners[i] = lstn;
             return;
         }
     }
 
-    _listeners[_listenerCount] = lstn;
     lstn->reset();
+    _listeners[_listenerCount] = lstn;
     _listenerCount++;
 }
 

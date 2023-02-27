@@ -6,6 +6,7 @@
 
 class EvtContext;
 
+/// @brief Needed to test destructor
 class MockEvtListener : public IEvtListener
 {
 public:

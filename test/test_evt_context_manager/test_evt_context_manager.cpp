@@ -1,12 +1,12 @@
 #include <ArduinoFake.h>
 #include <unity.h>
 
-#include "EvtManager.h"
+#include "EvtContextManager.h"
 #include "MockEvtListener.h"
 
 using namespace fakeit;
 
-EvtManager target;
+EvtContextManager target;
 Mock<IEvtListener> listenerMock;
 
 void setUp(void)

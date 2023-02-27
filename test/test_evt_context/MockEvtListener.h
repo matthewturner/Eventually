@@ -4,7 +4,7 @@
 #include "EvtAction.h"
 #include "IEvtListener.h"
 
-class EvtContext;
+class IEvtContext;
 
 /// @brief Needed to test destructor
 class MockEvtListener : public IEvtListener
@@ -12,7 +12,7 @@ class MockEvtListener : public IEvtListener
 public:
     virtual void reset() override;
     virtual bool isEventTriggered() override;
-    virtual bool performTriggerAction(EvtContext *) override; // return false to stop the current chain
+    virtual bool performTriggerAction(IEvtContext *) override; // return false to stop the current chain
     bool hasBeenTriggered();
 
     virtual void disable() override;

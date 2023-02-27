@@ -13,7 +13,7 @@ bool MockEvtListener::isEventTriggered()
   return true;
 }
 
-bool MockEvtListener::performTriggerAction(EvtContext *ctx)
+bool MockEvtListener::performTriggerAction(IEvtContext *ctx)
 {
   _triggered = true;
   return true;

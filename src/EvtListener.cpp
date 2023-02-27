@@ -13,7 +13,7 @@ bool EvtListener::isEventTriggered()
   return _enabled;
 }
 
-bool EvtListener::performTriggerAction(EvtContext *ctx)
+bool EvtListener::performTriggerAction(IEvtContext *ctx)
 {
   return (*_triggerAction)(this, ctx);
 }

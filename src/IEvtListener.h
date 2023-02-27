@@ -9,7 +9,7 @@
 
 #include "EvtAction.h"
 
-class EvtContext;
+class IEvtContext;
 
 class IEvtListener
 {
@@ -17,7 +17,7 @@ public:
     IEvtListener();
     virtual void reset() = 0;
     virtual bool isEventTriggered() = 0;
-    virtual bool performTriggerAction(EvtContext *) = 0; // return false to stop the current chain
+    virtual bool performTriggerAction(IEvtContext *) = 0; // return false to stop the current chain
 
     virtual void disable() = 0;
     virtual void enable() = 0;

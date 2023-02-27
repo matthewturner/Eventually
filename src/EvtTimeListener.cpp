@@ -51,7 +51,7 @@ bool EvtTimeListener::isEventTriggered()
     return shouldFire;
 }
 
-bool EvtTimeListener::performTriggerAction(EvtContext *c)
+bool EvtTimeListener::performTriggerAction(IEvtContext *c)
 {
     bool returnval = (*_triggerAction)(this, c);
     if (_multiFire)

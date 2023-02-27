@@ -11,7 +11,7 @@
 #include <limits.h>
 
 #include "EvtListener.h"
-#include "EvtContext.h"
+#include "IEvtContext.h"
 
 class EvtTimeListener : public EvtListener
 {
@@ -20,7 +20,7 @@ public:
     EvtTimeListener(unsigned long time, bool multiFire, EvtAction trigger);
     void reset();
     bool isEventTriggered();
-    bool performTriggerAction(EvtContext *);
+    bool performTriggerAction(IEvtContext *);
 
 private:
     unsigned long _millis;

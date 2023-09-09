@@ -15,6 +15,7 @@ class IEvtContext;
 class EvtListener : public IEvtListener
 {
 public:
+    void *extraData = 0;
     virtual void reset() override;
     virtual bool isEventTriggered() override;
     virtual bool performTriggerAction(IEvtContext *) override;

@@ -23,7 +23,7 @@ public:
     virtual void disable() = 0;
     virtual ~IEvtListener() = 0;
 
-    void *extraData {nullptr};  // data pointer, which allows arbitrary data stored into
+    void *extraData {0};  // data pointer, which allows arbitrary data stored into
 };
 
 #endif

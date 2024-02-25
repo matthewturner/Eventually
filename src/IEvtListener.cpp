@@ -6,5 +6,6 @@ IEvtListener::IEvtListener()
 
 IEvtListener::~IEvtListener()
 {
-    extraData = nullptr;
+    // this might be dangerous if extraData keeps a heap pointer ...
+    extraData = 0;
 }

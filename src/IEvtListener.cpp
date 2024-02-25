@@ -6,4 +6,5 @@ IEvtListener::IEvtListener()
 
 IEvtListener::~IEvtListener()
 {
+    extraData = nullptr;
 }

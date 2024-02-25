@@ -210,6 +210,20 @@ bool EvtAlwaysFiresListener::isEventTriggered()
 }
 ```
 
+### Adding Data to Listeners
+
+This library also has the ability to add small bits of data to listeners. Each listener had a `extraData` member, which allows arbitrary data stored into it (type is a pointer to void, and the value defaults to 0). The `extraData` variable is completely unmanaged, so use it for whatever you want. It doesn't have to store a pointer, in fact, it is probably easier to manage if it doesn't.
+
+So, for instance, we can rewrite the blink_pin function to not rely on a global variable, like this:
+
+    bool blink_pin(IEvtListener *lstn) {
+      lstn->extraData = !lstn->extraData;
+      digitalWrite(LIGHT_PIN, lstn->extraData);
+      return false;
+    }
+
+This uses the extraData variable to store the pin state.
+
 ## Differences with the original
 
 Some of the capabilities were not being used and have been removed to conserve memory. Some other benefits over the original:

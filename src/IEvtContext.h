@@ -19,7 +19,8 @@ public:
 
   /// @brief Adds a listener to the list of listeners.
   /// @param lstn
-  virtual void addListener(IEvtListener *lstn) = 0;
+  /// @return true: successful, false: failed, no space left in listerner queue
+  virtual bool addListener(IEvtListener *lstn) = 0;
 
   /// @brief Removes the listener and frees memory (using delete).
   /// Potentially introduces fragmentation of the heap so use sparingly.

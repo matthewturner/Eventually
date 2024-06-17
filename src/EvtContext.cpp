@@ -44,7 +44,7 @@ void EvtContext::reset()
     _listenerCount = 0;
 }
 
-void EvtContext::addListener(IEvtListener *lstn)
+bool EvtContext::addListener(IEvtListener *lstn)
 {
     for (byte i = 0; i < _listenerCount; i++)
     {
@@ -52,13 +52,19 @@ void EvtContext::addListener(IEvtListener *lstn)
         {
             lstn->reset();
             _listeners[i] = lstn;
-            return;
+            return true;
         }
+    }
+
+    if (_listenerCount == EVENTUALLY_MAX_LISTENERS) {
+        // do not add listener if there is no space left in _listeners
+        return false;
     }
 
     lstn->reset();
     _listeners[_listenerCount] = lstn;
     _listenerCount++;
+    return true;
 }
 
 void EvtContext::removeListener(IEvtListener *lstn)

@@ -7,7 +7,7 @@
 #ifndef EvtContextManager_h
 #define EvtContextManager_h
 
-#include "Common.h"
+#include "EvtCommon.h"
 #include "EvtContext.h"
 #include "EvtListener.h"
 
@@ -22,7 +22,7 @@ public:
 
   virtual void reset() override;
   virtual void loopIteration() override;
-  virtual void addListener(IEvtListener *lstn) override;
+  virtual bool addListener(IEvtListener *lstn) override;
   virtual void removeListener(IEvtListener *lstn) override;
   virtual void manageListeners(bool manage) override;
   virtual byte listenerCount() override;

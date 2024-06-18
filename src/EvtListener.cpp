@@ -21,8 +21,8 @@ void EvtListener::disable()
 
 void EvtListener::enable()
 {
-  _enabled = true;
   reset();
+  _enabled = true;
 }
 
 EvtListener::~EvtListener()

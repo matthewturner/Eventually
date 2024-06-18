@@ -14,7 +14,7 @@
 #define EVENTUALLY_MAX_LISTENERS 5
 #endif
 
-#include "Common.h"
+#include "EvtCommon.h"
 #include "IEvtListener.h"
 #include "IEvtContext.h"
 
@@ -24,7 +24,7 @@ public:
   EvtContext(bool manageListeners = false);
   virtual void reset() override;
   virtual void loopIteration() override;
-  virtual void addListener(IEvtListener *lstn) override;
+  virtual bool addListener(IEvtListener *lstn) override;
   virtual void removeListener(IEvtListener *lstn) override;
   virtual void manageListeners(bool manage) override;
   virtual byte listenerCount() override;

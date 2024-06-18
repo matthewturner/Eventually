@@ -5,9 +5,9 @@ EvtContextManager::EvtContextManager()
     pushContext(&_defaultContext);
 }
 
-void EvtContextManager::addListener(IEvtListener *lstn)
+bool EvtContextManager::addListener(IEvtListener *lstn)
 {
-    currentContext()->addListener(lstn);
+    return currentContext()->addListener(lstn);
 }
 
 void EvtContextManager::removeListener(IEvtListener *lstn)

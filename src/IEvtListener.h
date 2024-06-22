@@ -22,6 +22,8 @@ public:
     virtual void enable() = 0;
     virtual void disable() = 0;
     virtual ~IEvtListener() = 0;
+
+    void *extraData {0};  // data pointer, which allows arbitrary data stored into
 };
 
 #endif
